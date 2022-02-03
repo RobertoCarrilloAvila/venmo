@@ -171,6 +171,8 @@ GEM
       rubocop (~> 1.0)
       rubocop-ast (>= 1.1.0)
     ruby-progressbar (1.11.0)
+    shoulda-matchers (5.1.0)
+      activesupport (>= 5.2.0)
     spring (4.0.0)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
@@ -201,11 +203,12 @@ DEPENDENCIES
   rspec-rails (~> 5.1)
   rubocop-rails (~> 2.13)
   rubocop-rspec (~> 2.4)
+  shoulda-matchers (~> 5.1)
   spring
   tzinfo-data
 
 RUBY VERSION
-   ruby 3.1.0p0
+   ruby 2.7.2p137
 
 BUNDLED WITH
    2.1.4
