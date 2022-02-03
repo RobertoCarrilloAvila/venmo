@@ -3,9 +3,15 @@ RSpec.describe User, type: :model do
     subject { build :user }
 
     it { is_expected.to validate_uniqueness_of(:email) }
-    
-    it { is_expected.to validate_presence_of(:email) }
-    it { is_expected.to validate_presence_of(:name) }
-    it { is_expected.to validate_presence_of(:last_name) }
+  end
+
+  describe 'associations' do
+    subject { create :user }
+
+    it { is_expected.to have_many(:friendships) }
+    it { is_expected.to have_many(:friends).through(:friendships) }
+
+    it { is_expected.to have_many(:inverse_friendships) }
+    it { is_expected.to have_many(:inverse_friends).through(:inverse_friendships) }
   end
 end
