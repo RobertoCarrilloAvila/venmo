@@ -17,5 +17,8 @@ RSpec.describe User, type: :model do
 
     it { is_expected.to have_many(:inverse_friendships) }
     it { is_expected.to have_many(:inverse_friends).through(:inverse_friendships) }
+
+    it { is_expected.to have_many(:payments_sent) }
+    it { is_expected.to have_many(:payments_received) }
   end
 end
