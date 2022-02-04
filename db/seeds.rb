@@ -27,3 +27,4 @@ FactoryBot.create(:payment, origin: user4, target: user3, amount: 250)
 
 # user4 with its own payments
 FactoryBot.create(:payment, origin: user4, target: user5, amount: 100)
+FactoryBot.create_list(:payment, 100, origin: user4)
