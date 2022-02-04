@@ -1,24 +1,29 @@
-# README
+# Venmo
+Venmo​ is a mobile payment service which allows friends to transfer money to each other. It also has some social features like show your friends’ payment activities as feed.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Setup
 
-Things you may want to cover:
+#### Clone the repo
+```sh
+git clone git@github.com:RobertoCarrilloAvila/venmo.git
+cd venmo
+bundle install
+```
 
-* Ruby version
+#### Running the project
+```sh
+bundle exec rails s
+```
 
-* System dependencies
+#### Running tests
+```sh
+bundle exec rspec
+```
 
-* Configuration
+#### Running rubocop
+```sh
+bundle exec rubocop 
+```
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### Supported Requests
+  * [Postman Collection](https://www.getpostman.com/collections/0cee405706ad907242dd)
