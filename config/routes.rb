@@ -1,3 +1,7 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  namespace :user do
+      post ':id/payment', to: 'payments#create', as: :payment
+      get ':id/feed', to: 'feeds#index', as: :feed
+      get ':id/balance', to: 'balances#show', as: :balance
+  end
 end
