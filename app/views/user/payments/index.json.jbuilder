@@ -1,3 +1,5 @@
 json.feeds @payments do |payment|
-  json.partial! 'info', payment: payment
+  json.title        "#{payment.origin.id} paid #{payment.target.id}" \
+                     " on #{payment.created_at} - #{payment.amount} #{payment.description}"
+  json.description  payment.description
 end

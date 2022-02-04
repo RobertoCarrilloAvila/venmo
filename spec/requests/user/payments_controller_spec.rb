@@ -24,18 +24,11 @@ RSpec.describe User::PaymentsController, type: :request do
       expect(feeds.count).to eq(2)
     end
 
-    it 'returns all payments in reverse chronological order' do
-      get user_feed_path(user)
-      feeds = JSON.parse(response.body)['feeds']
-
-      expect(feeds.first['created_at']).to be > feeds.last['created_at']
-    end
-
     it 'return right fields' do
       get user_feed_path(user)
       feeds = JSON.parse(response.body)['feeds']
 
-      expect(feeds.first.keys).to eq(%w[id origin target amount description created_at])
+      expect(feeds.first.keys).to eq(%w[title description])
     end
 
     context 'when user does not exist' do
