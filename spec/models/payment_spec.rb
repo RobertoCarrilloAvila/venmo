@@ -7,7 +7,7 @@ RSpec.describe Payment, type: :model do
   end
 
   describe '#all_payments' do
-    subject { Payment.all_payments(user) }
+    subject { described_class.all_payments(user) }
 
     let(:user) { create :user }
     let(:friend) { create :user }
@@ -20,10 +20,13 @@ RSpec.describe Payment, type: :model do
 
       create_list(:payment, 20)
     end
-    
+
     it 'returns all payments for the user and its friends' do
       expect(subject.count).to eq(2)
-      expect(subject.pluck(:origin_id, :target_id)).to all(include(user.id).or include(friend.id))
+    end
+
+    it 'return only user and friends payments' do
+      expect(subject.pluck(:origin_id, :target_id)).to all(include(user.id).or(include(friend.id)))
     end
   end
 end

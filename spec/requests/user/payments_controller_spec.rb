@@ -34,8 +34,8 @@ RSpec.describe User::PaymentsController, type: :request do
     it 'return right fields' do
       get user_feed_path(user)
       feeds = JSON.parse(response.body)['feeds']
-      
-      expect(feeds.first.keys).to eq(%w(id origin target amount description created_at))
+
+      expect(feeds.first.keys).to eq(%w[id origin target amount description created_at])
     end
 
     context 'when user does not exist' do

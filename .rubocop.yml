@@ -11,3 +11,7 @@ AllCops:
     - db/schema.rb
     - db/seeds.rb
     - bin/bundle
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*.rb
