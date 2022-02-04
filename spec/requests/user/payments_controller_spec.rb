@@ -58,7 +58,7 @@ RSpec.describe User::PaymentsController, type: :request do
     let(:description) { 'test description' }
 
     let(:params) do
-      { 
+      {
         payment: {
           friend_id: friend.id,
           amount: amount,

@@ -1,5 +1,5 @@
 class ExternalPaymentService < ApplicationService
-  DESCRIPTION = 'Payment from external service'
+  DESCRIPTION = 'Payment from external service'.freeze
   ORIGIN_ID = 0
 
   attr_reader :user_id, :friend_id, :amount, :description

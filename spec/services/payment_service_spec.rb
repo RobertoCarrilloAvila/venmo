@@ -1,9 +1,4 @@
 RSpec.describe PaymentService do
-  let(:user)        { create :user, balance: 200 }
-  let(:friend)      { create :user, balance: 200 }
-  let(:amount)      { 100 }
-  let(:description) { 'test description' }
-
   subject do
     described_class.new(
       user_id: user.id,
@@ -12,6 +7,11 @@ RSpec.describe PaymentService do
       description: description
     )
   end
+
+  let(:user)        { create :user, balance: 200 }
+  let(:friend)      { create :user, balance: 200 }
+  let(:amount)      { 100 }
+  let(:description) { 'test description' }
 
   before do
     user.friends << friend
@@ -23,7 +23,7 @@ RSpec.describe PaymentService do
     end
 
     it 'creates payment' do
-      expect { subject.call }.to change { Payment.count }.from(0).to(1)
+      expect { subject.call }.to change(Payment, :count).from(0).to(1)
     end
 
     it 'creates payment with correct attributes' do
@@ -67,7 +67,7 @@ RSpec.describe PaymentService do
       let(:user) { create :user, balance: 0 }
 
       it 'raises an error' do
-        expect { subject.call }.to change { Payment.count }.from(0).to(2)
+        expect { subject.call }.to change(Payment, :count).from(0).to(2)
       end
     end
   end

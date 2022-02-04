@@ -15,3 +15,9 @@ AllCops:
 Metrics/BlockLength:
   Exclude:
     - spec/**/*.rb
+
+RSpec/ExampleLength:
+  Max: 15
+
+RSpec/MultipleExpectations:
+  Max: 5

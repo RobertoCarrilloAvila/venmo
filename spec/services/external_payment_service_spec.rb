@@ -1,8 +1,8 @@
 RSpec.describe ExternalPaymentService do
+  subject { described_class.new(user_id: user.id, amount: amount) }
+
   let(:user) { create(:user, balance: 0) }
   let(:amount) { 100 }
-
-  subject { described_class.new(user_id: user.id, amount: amount) }
 
   describe '#call' do
     it 'transfers balance' do
@@ -10,7 +10,7 @@ RSpec.describe ExternalPaymentService do
     end
 
     it 'creates payment' do
-      expect { subject.call }.to change { Payment.count }.from(0).to(1)
+      expect { subject.call }.to change(Payment, :count).from(0).to(1)
     end
 
     it 'creates payment with correct attributes' do

@@ -16,16 +16,16 @@ class PaymentService < ApplicationService
 
   def transfer_balance
     # transfer balance from origin to target
+    if origin.balance.zero? || origin.balance.negative?
+      external_payment
+      origin.reload
+    end
+
     send_money
   end
 
   def send_money
     ActiveRecord::Base.transaction do
-      if origin.balance.zero? || origin.balance.negative?
-        external_payment
-        origin.reload
-      end
-
       origin.withdraw(amount)
       target.deposit(amount)
 

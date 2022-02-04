@@ -29,7 +29,7 @@ RSpec.describe User, type: :model do
     subject { create :user, balance: 100 }
 
     it 'decreases balance' do
-      expect { subject.withdraw(100) }.to change { subject.balance }.from(100).to(0)
+      expect { subject.withdraw(100) }.to change(subject, :balance).from(100).to(0)
     end
 
     context 'when balance is less than amount' do
@@ -45,7 +45,7 @@ RSpec.describe User, type: :model do
     subject { create :user, balance: 100 }
 
     it 'increases balance' do
-      expect { subject.deposit(100) }.to change { subject.balance }.from(100).to(200)
+      expect { subject.deposit(100) }.to change(subject, :balance).from(100).to(200)
     end
 
     context 'when balance is more than amount' do
