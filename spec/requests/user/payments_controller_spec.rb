@@ -50,4 +50,65 @@ RSpec.describe User::PaymentsController, type: :request do
       end
     end
   end
+
+  describe 'POST #create' do
+    let(:user)        { create(:user, balance: 200) }
+    let(:friend)      { create(:user, balance: 200) }
+    let(:amount)      { 100 }
+    let(:description) { 'test description' }
+
+    let(:params) do
+      {
+        payment: {
+          friend_id: friend.id,
+          amount: amount,
+          description: description
+        }
+      }
+    end
+
+    before do
+      user.friends << friend
+    end
+
+    it 'returns http success' do
+      post user_payment_path(user), params: params
+      expect(response).to have_http_status(:created)
+    end
+
+    it 'returns error message when origin has insufficient balance' do
+      user.update(balance: 10)
+      post user_payment_path(user), params: params
+
+      expect(response.body).to include('must be greater than or equal to 0')
+    end
+
+    it 'returns error message when target has full balance' do
+      friend.update(balance: 1000)
+      post user_payment_path(user), params: params
+
+      expect(response.body).to include('must be less than or equal to 1000')
+    end
+
+    context 'when the target is not a friend' do
+      let(:friend) { create(:user) }
+
+      before { user.friends.delete(friend) }
+
+      it 'raises an error' do
+        post user_payment_path(user), params: params
+
+        expect(response.body).to include('Record not found')
+      end
+    end
+
+    context 'when origin has balance zero' do
+      let(:user) { create(:user, balance: 0) }
+
+      it 'raises an error' do
+        post user_payment_path(user), params: params
+        expect(response).to have_http_status(:created)
+      end
+    end
+  end
 end

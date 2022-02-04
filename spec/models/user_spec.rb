@@ -24,4 +24,36 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_many(:payments_sent) }
     it { is_expected.to have_many(:payments_received) }
   end
+
+  describe '#withdraw' do
+    subject { create :user, balance: 100 }
+
+    it 'decreases balance' do
+      expect { subject.withdraw(100) }.to change(subject, :balance).from(100).to(0)
+    end
+
+    context 'when balance is less than amount' do
+      subject { create :user, balance: 10 }
+
+      it 'raises an error' do
+        expect { subject.withdraw(100) }.to raise_error(ActiveRecord::RecordInvalid)
+      end
+    end
+  end
+
+  describe '#deposit' do
+    subject { create :user, balance: 100 }
+
+    it 'increases balance' do
+      expect { subject.deposit(100) }.to change(subject, :balance).from(100).to(200)
+    end
+
+    context 'when balance is more than amount' do
+      subject { create :user, balance: 1000 }
+
+      it 'raises an error' do
+        expect { subject.deposit(100) }.to raise_error(ActiveRecord::RecordInvalid)
+      end
+    end
+  end
 end

@@ -18,4 +18,12 @@ class User < ApplicationRecord
 
   validates :balance, presence: true,
                       numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1_000 }
+
+  def withdraw(amount)
+    update!(balance: balance - amount.to_i)
+  end
+
+  def deposit(amount)
+    update!(balance: balance + amount.to_i)
+  end
 end
