@@ -27,3 +27,6 @@ bundle exec rubocop
 
 ### Supported Requests
   * [Postman Collection](https://www.getpostman.com/collections/0cee405706ad907242dd)
+
+### Database
+![Database tables](ER.png)

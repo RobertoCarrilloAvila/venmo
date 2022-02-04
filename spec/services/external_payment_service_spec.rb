@@ -1,5 +1,5 @@
 RSpec.describe ExternalPaymentService do
-  subject { described_class.new(user_id: user.id, amount: amount) }
+  subject { described_class.new(user: user, amount: amount) }
 
   let(:user) { create(:user, balance: 0) }
   let(:amount) { 100 }

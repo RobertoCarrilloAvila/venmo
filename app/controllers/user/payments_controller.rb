@@ -11,7 +11,9 @@ class User::PaymentsController < ApplicationController
   def create
     PaymentService.call(
       user_id: @user.id,
-      **payment_params.to_unsafe_h.symbolize_keys
+      friend_id: payment_params[:friend_id],
+      amount: payment_params[:amount],
+      description: payment_params[:description]
     )
     head :created
   end

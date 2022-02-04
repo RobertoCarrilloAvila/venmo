@@ -16,7 +16,7 @@ class PaymentService < ApplicationService
 
   def transfer_balance
     # transfer balance from origin to target
-    if origin.balance.zero? || origin.balance.negative?
+    unless origin.balance.positive?
       external_payment
       origin.reload
     end
@@ -39,7 +39,7 @@ class PaymentService < ApplicationService
   end
 
   def external_payment
-    ExternalPaymentService.call(user_id: origin.id, amount: amount)
+    ExternalPaymentService.call(user: origin, amount: amount)
   end
 
   def origin
