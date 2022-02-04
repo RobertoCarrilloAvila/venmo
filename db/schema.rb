@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_03_161844) do
+ActiveRecord::Schema.define(version: 2022_02_03_195332) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,14 +24,28 @@ ActiveRecord::Schema.define(version: 2022_02_03_161844) do
     t.index ["user_id"], name: "index_friendships_on_user_id"
   end
 
+  create_table "payments", force: :cascade do |t|
+    t.bigint "origin_id", null: false
+    t.bigint "target_id", null: false
+    t.integer "amount", default: 0, null: false
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["origin_id"], name: "index_payments_on_origin_id"
+    t.index ["target_id"], name: "index_payments_on_target_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
     t.string "name", null: false
     t.string "last_name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "balance", default: 0, null: false
   end
 
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend_id"
+  add_foreign_key "payments", "users", column: "origin_id"
+  add_foreign_key "payments", "users", column: "target_id"
 end

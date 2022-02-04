@@ -3,6 +3,13 @@ RSpec.describe User, type: :model do
     subject { build :user }
 
     it { is_expected.to validate_uniqueness_of(:email) }
+    it { is_expected.to validate_presence_of(:balance) }
+
+    it {
+      expect(subject).to validate_numericality_of(:balance)
+        .is_greater_than_or_equal_to(0)
+        .is_less_than_or_equal_to(1_000)
+    }
   end
 
   describe 'associations' do
@@ -13,5 +20,8 @@ RSpec.describe User, type: :model do
 
     it { is_expected.to have_many(:inverse_friendships) }
     it { is_expected.to have_many(:inverse_friends).through(:inverse_friendships) }
+
+    it { is_expected.to have_many(:payments_sent) }
+    it { is_expected.to have_many(:payments_received) }
   end
 end
