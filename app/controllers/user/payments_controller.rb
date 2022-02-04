@@ -1,8 +1,11 @@
 class User::PaymentsController < ApplicationController
+  include Pagy::Backend
+
   before_action :set_user, only: [:index, :create]
 
   def index
-    @payments = Payment.all_payments(@user)
+    pagy, @payments = pagy(Payment.all_payments(@user))
+    @pagy_metadata = pagy_metadata(pagy)
   end
 
   def create

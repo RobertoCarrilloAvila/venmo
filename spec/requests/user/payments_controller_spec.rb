@@ -24,18 +24,11 @@ RSpec.describe User::PaymentsController, type: :request do
       expect(feeds.count).to eq(2)
     end
 
-    it 'returns all payments in reverse chronological order' do
-      get user_feed_path(user)
-      feeds = JSON.parse(response.body)['feeds']
-
-      expect(feeds.first['created_at']).to be > feeds.last['created_at']
-    end
-
     it 'return right fields' do
       get user_feed_path(user)
       feeds = JSON.parse(response.body)['feeds']
 
-      expect(feeds.first.keys).to eq(%w[id origin target amount description created_at])
+      expect(feeds.first.keys).to eq(%w[title description])
     end
 
     context 'when user does not exist' do
@@ -47,6 +40,57 @@ RSpec.describe User::PaymentsController, type: :request do
 
       it 'returns error message' do
         expect(response.body).to eq({ error: 'Record not found' }.to_json)
+      end
+    end
+
+    describe 'pagination' do
+      before do
+        Payment.destroy_all
+        create_list(:payment, 100, origin: user)
+      end
+
+      it 'returns pagination metadata' do
+        get user_feed_path(user)
+        pagy_metadata = JSON.parse(response.body)['pagy']
+
+        expect(pagy_metadata.keys).to eq(%w[count page items pages last from to prev next])
+      end
+
+      it 'returns 10 items per page' do
+        get user_feed_path(user)
+        pagy_metadata = JSON.parse(response.body)['pagy']
+
+        expect(pagy_metadata['items']).to eq(10)
+      end
+
+      it 'returns pagination metadata with correct values' do
+        get user_feed_path(user)
+        pagy_metadata = JSON.parse(response.body)['pagy']
+
+        expect(pagy_metadata['count']).to eq(100)
+        expect(pagy_metadata['page']).to eq(1)
+        expect(pagy_metadata['items']).to eq(10)
+        expect(pagy_metadata['pages']).to eq(10)
+        expect(pagy_metadata['last']).to eq(10)
+        expect(pagy_metadata['from']).to eq(1)
+        expect(pagy_metadata['to']).to eq(10)
+        expect(pagy_metadata['prev']).to eq(nil)
+        expect(pagy_metadata['next']).to eq(2)
+      end
+
+      it 'retuens pagination metadata with correct values when page is 2' do
+        get user_feed_path(user, page: 2)
+        pagy_metadata = JSON.parse(response.body)['pagy']
+
+        expect(pagy_metadata['count']).to eq(100)
+        expect(pagy_metadata['page']).to eq(2)
+        expect(pagy_metadata['items']).to eq(10)
+        expect(pagy_metadata['pages']).to eq(10)
+        expect(pagy_metadata['last']).to eq(10)
+        expect(pagy_metadata['from']).to eq(11)
+        expect(pagy_metadata['to']).to eq(20)
+        expect(pagy_metadata['prev']).to eq(1)
+        expect(pagy_metadata['next']).to eq(3)
       end
     end
   end
