@@ -9,7 +9,7 @@ RSpec.describe User::BalancesController, type: :request do
     end
 
     it 'returns user balance' do
-      expect(response.body).to eq({user: { balance: 100 }}.to_json)
+      expect(response.body).to eq({ user: { balance: 100 } }.to_json)
     end
 
     context 'when user does not exist' do
@@ -20,7 +20,7 @@ RSpec.describe User::BalancesController, type: :request do
       end
 
       it 'returns error message' do
-        expect(response.body).to eq({error: 'Record not found'}.to_json)
+        expect(response.body).to eq({ error: 'Record not found' }.to_json)
       end
     end
   end

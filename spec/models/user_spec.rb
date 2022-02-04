@@ -4,9 +4,12 @@ RSpec.describe User, type: :model do
 
     it { is_expected.to validate_uniqueness_of(:email) }
     it { is_expected.to validate_presence_of(:balance) }
-    it { is_expected.to validate_numericality_of(:balance)
-                        .is_greater_than_or_equal_to(0)
-                        .is_less_than_or_equal_to(1_000) }
+
+    it {
+      expect(subject).to validate_numericality_of(:balance)
+        .is_greater_than_or_equal_to(0)
+        .is_less_than_or_equal_to(1_000)
+    }
   end
 
   describe 'associations' do
