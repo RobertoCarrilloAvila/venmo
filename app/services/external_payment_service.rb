@@ -2,10 +2,10 @@ class ExternalPaymentService < ApplicationService
   DESCRIPTION = 'Payment from external service'.freeze
   ORIGIN_ID = 0
 
-  attr_reader :user_id, :friend_id, :amount, :description
+  attr_reader :user, :friend_id, :amount, :description
 
-  def initialize(user_id:, amount:)
-    @user_id = user_id
+  def initialize(user:, amount:)
+    @user = user
     @amount  = amount
   end
 
@@ -26,9 +26,5 @@ class ExternalPaymentService < ApplicationService
         description: DESCRIPTION
       )
     end
-  end
-
-  def user
-    @user ||= User.find(user_id)
   end
 end

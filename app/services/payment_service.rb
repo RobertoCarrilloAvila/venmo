@@ -39,7 +39,7 @@ class PaymentService < ApplicationService
   end
 
   def external_payment
-    ExternalPaymentService.call(user_id: origin.id, amount: amount)
+    ExternalPaymentService.call(user: origin, amount: amount)
   end
 
   def origin
